@@ -13,7 +13,11 @@
 <body>
   <header class="topbar">
     <h1>🏠 HausPlan</h1>
-    <button id="addBtn" class="btn primary" aria-label="Neue Aufgabe">＋ Aufgabe</button>
+    <div class="topbar-actions">
+      <span id="syncStatus" class="sync offline" title="Verbinde …"><i></i><span>Verbinde …</span></span>
+      <button id="meBtn" class="me-btn" type="button" title="Person wechseln">Wer bist du?</button>
+      <button id="addBtn" class="btn primary" aria-label="Neue Aufgabe">＋ Aufgabe</button>
+    </div>
   </header>
 
   <nav class="tabs" role="tablist">
@@ -38,6 +42,7 @@
   <dialog id="taskDialog">
     <form id="taskForm" method="dialog">
       <h2 id="dialogTitle">Neue Aufgabe</h2>
+      <p id="taskInfo" class="muted small" hidden></p>
       <label>Titel
         <input name="title" required maxlength="100" placeholder="z. B. Bad putzen">
       </label>
@@ -99,8 +104,38 @@
     </form>
   </dialog>
 
+  <dialog id="loginDialog">
+    <form id="loginForm">
+      <h2>🔒 Haushalts-Code</h2>
+      <p class="muted">Gib den Code ein, den ihr für euren Haushalt festgelegt habt.</p>
+      <label>Code
+        <input name="code" type="password" autocomplete="current-password" required>
+      </label>
+      <p id="loginError" class="error" hidden></p>
+      <div class="dialog-actions">
+        <span class="spacer"></span>
+        <button type="submit" class="btn primary">Anmelden</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="identityDialog">
+    <h2>👋 Wer bist du?</h2>
+    <p class="muted">So sehen alle, wer was erledigt hat. Die Auswahl gilt für dieses Gerät und lässt sich oben rechts jederzeit ändern.</p>
+    <div id="identityList" class="person-list"></div>
+    <form id="identityForm" class="inline-form">
+      <input name="name" placeholder="Ich bin neu: Name eingeben" maxlength="30" required>
+      <button type="submit" class="btn primary">Hinzufügen</button>
+    </form>
+    <div class="dialog-actions">
+      <span class="spacer"></span>
+      <button type="button" id="identityCancel" class="btn">Schließen</button>
+    </div>
+  </dialog>
+
   <div id="toast" class="toast" hidden></div>
 
+  <script src="shared.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
