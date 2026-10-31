@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2f6f5e">
+  <meta name="description" content="Haushalt & Homeoffice organisieren">
+  <title>HausPlan</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🏠 HausPlan</h1>
+    <button id="addBtn" class="btn primary" aria-label="Neue Aufgabe">＋ Aufgabe</button>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-view="today" role="tab">Heute</button>
+    <button class="tab" data-view="week" role="tab">Woche</button>
+    <button class="tab" data-view="all" role="tab">Alle</button>
+    <button class="tab" data-view="stats" role="tab">Statistik</button>
+    <button class="tab" data-view="settings" role="tab" aria-label="Einstellungen">⚙️</button>
+  </nav>
+
+  <div class="filters" id="filters">
+    <div class="chips" id="categoryFilter">
+      <button class="chip active" data-cat="all">Alles</button>
+      <button class="chip" data-cat="haushalt">🧹 Haushalt</button>
+      <button class="chip" data-cat="homeoffice">💻 Homeoffice</button>
+    </div>
+    <select id="memberFilter" aria-label="Person filtern"></select>
+  </div>
+
+  <main id="view"></main>
+
+  <dialog id="taskDialog">
+    <form id="taskForm" method="dialog">
+      <h2 id="dialogTitle">Neue Aufgabe</h2>
+      <label>Titel
+        <input name="title" required maxlength="100" placeholder="z. B. Bad putzen">
+      </label>
+      <div class="row">
+        <label>Bereich
+          <select name="category">
+            <option value="haushalt">🧹 Haushalt</option>
+            <option value="homeoffice">💻 Homeoffice</option>
+          </select>
+        </label>
+        <label>Raum / Projekt
+          <input name="area" list="areaList" maxlength="40" placeholder="z. B. Küche">
+          <datalist id="areaList"></datalist>
+        </label>
+      </div>
+      <div class="row">
+        <label>Zuständig
+          <select name="assignee"></select>
+        </label>
+        <label>Priorität
+          <select name="priority">
+            <option value="1">Niedrig</option>
+            <option value="2" selected>Normal</option>
+            <option value="3">Hoch</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Fällig am
+          <input name="dueDate" type="date" required>
+        </label>
+        <label>Wiederholung
+          <select name="recurrence">
+            <option value="none">Einmalig</option>
+            <option value="daily">Täglich</option>
+            <option value="weekdays">Werktags (Mo–Fr)</option>
+            <option value="weekly">Wöchentlich</option>
+            <option value="biweekly">Alle 2 Wochen</option>
+            <option value="monthly">Monatlich</option>
+            <option value="custom">Alle X Tage</option>
+          </select>
+        </label>
+      </div>
+      <label id="customIntervalWrap" hidden>Intervall in Tagen
+        <input name="interval" type="number" min="1" max="365" value="3">
+      </label>
+      <label>Dauer (Minuten, optional)
+        <input name="duration" type="number" min="0" max="600" step="5" placeholder="15">
+      </label>
+      <label>Notizen
+        <textarea name="notes" rows="2" maxlength="500"></textarea>
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="deleteTaskBtn" class="btn danger" hidden>Löschen</button>
+        <span class="spacer"></span>
+        <button type="button" id="cancelBtn" class="btn">Abbrechen</button>
+        <button type="submit" class="btn primary">Speichern</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
